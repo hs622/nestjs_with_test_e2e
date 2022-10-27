@@ -7,7 +7,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { JwtGuard } from '../../src/middleware/guard/jwt.guard';
+import { JwtGuard } from '../middleware/guard/jwt.guard';
 import { Bookmark } from './schema';
 
 @Controller('bookmark')

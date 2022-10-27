@@ -4,6 +4,7 @@ import { AppModule } from '../src/app.module';
 import { Test } from '@nestjs/testing';
 import * as pactum from 'pactum';
 import { Login, Register } from 'src/auth/schema';
+import { inspect } from 'util';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -113,25 +114,22 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/login')
           .withBody(loginSchema)
-          .expectStatus(201);
+          .expectStatus(201)
+          .stores('userAt', 'access_token');
       });
     });
+  });
 
-    // describe('Profile', () => {
-      // const profileSchema: Profile = {
-      //   email: 'example@gmail.com',
-      //   password: '12345',
-      //   firstName: 'Joe',
-      //   lastName: 'example',
-      // };
-
-      // describe('should create', () => {
-          // return pactum
-          //   .spec()
-          //   .post('/auth/register')
-          //   .withBody(registerSchema)
-          //   .expectStatus(201);
-      // });
-    // });
+  describe('User', () => {
+    it('should get current user profile', () => {
+      return pactum
+        .spec()
+        .get('/profile/')
+        .withHeaders({
+          Authorization: 'Bearer $S{userAt}',
+        })
+        .expectStatus(200)
+        .inspect();
+    });
   });
 });

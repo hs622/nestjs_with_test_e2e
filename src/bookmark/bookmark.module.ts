@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CheckJwtAuthService } from '../../src/middleware/jwt';
+import { CheckJwtAuthService } from '../middleware/jwt';
 import { BookmarkController } from './bookmark.controller';
 import { BookmarkService } from './bookmark.service';
 
